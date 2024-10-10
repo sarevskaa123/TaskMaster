@@ -20,4 +20,9 @@ public class Task {
     private TaskStatus status;
 
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
