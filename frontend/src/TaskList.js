@@ -37,17 +37,34 @@ function TaskList() {
         }
     };
 
+    // Function to check if a task is overdue
+    const isTaskOverdue = (deadline) => {
+        if (!deadline) return false; // If there's no deadline, it's not overdue
+        const currentDate = new Date();
+        const taskDeadline = new Date(deadline);
+        return currentDate > taskDeadline; // Check if the current date has passed the deadline
+    };
+
     return (
         <div>
             <ul>
                 {tasks.map((task, index) => (
-                    <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{ borderLeft: `5px solid ${getPriorityColor(task.priority)}` }}>
-                        <div>
+                    <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
+                        borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
+                        backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''  // Change background color if overdue
+                    }}>
+                        <div style={{ flexGrow: 1 }}>
                             <h2>{task.title}</h2>
                             <p>{task.description}</p>
                             <p>Status: {task.status}</p>
                             <p>Priority: <span style={{ color: getPriorityColor(task.priority) }}>{task.priority}</span></p>
-                            <p>Created At: {new Date(task.createdAt).toLocaleString()}</p>
+                            <p>Created At: {new Date(task.createdAt).toLocaleDateString()}</p>
+                            {task.deadline && (
+                                <p>
+                                    Deadline: {new Date(task.deadline).toLocaleDateString()}
+                                    {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
+                                </p>
+                            )} {/* Only display if deadline is set */}
                         </div>
                         <button className="delete-button" onClick={() => handleDeleteTask(task.id)}>Delete</button>
                     </li>

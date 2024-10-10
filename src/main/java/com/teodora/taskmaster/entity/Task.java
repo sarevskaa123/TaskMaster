@@ -3,6 +3,7 @@ package com.teodora.taskmaster.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,6 +24,8 @@ public class Task {
     private TaskPriority priority;
 
     private LocalDateTime createdAt;
+
+    private LocalDate deadline;
 
     @PrePersist
     protected void onCreate() {
