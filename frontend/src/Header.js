@@ -10,10 +10,13 @@ function Header() {
                     <li><a href="/">Home</a></li>
                     <li><a href="/tasks">Tasks</a></li>
                     <li><a href="/about">About</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
                 </ul>
-            </nav>
-        </header>
-    );
+        </nav>
+</header>
+)
+    ;
 }
 
 export default Header;

@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  margin-top: 80px; /* Add margin-top to push content below the fixed header */
 }
 
 .task-section {

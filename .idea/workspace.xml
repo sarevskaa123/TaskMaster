@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8f9f0a47-5627-4a6e-9111-a984824b8543" name="Changes" comment="" />
+    <list default="true" id="8f9f0a47-5627-4a6e-9111-a984824b8543" name="Changes" comment="Update README file">
+      <change afterPath="$PROJECT_DIR$/frontend/src/Login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/MainRouter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Register.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/entity/UserRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Header.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Header.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,16 +26,38 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
+        <option value="CSS File" />
         <option value="Enum" />
+        <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "sarevskaa123"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/sarevskaa123/TaskMaster.git",
+    "accountId": "4ae9d32c-b705-4f5c-ac4b-09e98a556960"
+  }
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="downloadSourcesAutomatically" value="true" />
+      </MavenImportingSettings>
     </option>
   </component>
   <component name="ProjectColorInfo">{
@@ -30,28 +65,31 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2nFQoBAin7dzA5FXYkdA8NaWEpx" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.TaskMasterApplication.executor&quot;: &quot;Run&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.TaskMasterApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="TaskMasterApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -80,10 +118,51 @@
       <updated>1728566517187</updated>
       <workItem from="1728566518517" duration="1993000" />
       <workItem from="1728568633271" duration="497000" />
+      <workItem from="1728569794615" duration="16862000" />
     </task>
+    <task id="LOCAL-00001" summary="Add security config, PrePersist for task creation time, React frontend setup, and MySQL migration&#10;&#10;- Added simple security configuration for API endpoints.&#10;- Implemented @PrePersist to automatically set 'createdAt' time on Task entities.&#10;- Set up the frontend framework using React for UI development.&#10;- Migrated from H2 database to MySQL, updated application properties for MySQL connection.">
+      <option name="closed" value="true" />
+      <created>1728573102880</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728573102880</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fetch Data from Backend, Add Task Priorities, and Improve UI Design&#10;&#10;- Set up Axios in React to fetch task data from backend&#10;- Added task priorities with enum (LOW, MEDIUM, HIGH) and display them in different colors (red, orange, green)&#10;- Updated React components to handle priority input when creating tasks&#10;- Improved UI/UX:&#10;  - Alternating background colors for tasks (white/grey)&#10;  - Added margin and alignment improvements for task properties&#10;  - Added delete button to each task and positioned it properly&#10;  - Refined form and task list design with flexbox layout and shadows&#10;  - Enhanced overall UI for better user experience">
+      <option name="closed" value="true" />
+      <created>1728585062577</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728585062577</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add optional deadlines and handling of overdue tasks">
+      <option name="closed" value="true" />
+      <created>1728587204473</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728587204473</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Update README file">
+      <option name="closed" value="true" />
+      <created>1728588170872</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1728588170872</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add security config, PrePersist for task creation time, React frontend setup, and MySQL migration&#10;&#10;- Added simple security configuration for API endpoints.&#10;- Implemented @PrePersist to automatically set 'createdAt' time on Task entities.&#10;- Set up the frontend framework using React for UI development.&#10;- Migrated from H2 database to MySQL, updated application properties for MySQL connection." />
+    <MESSAGE value="Fetch Data from Backend, Add Task Priorities, and Improve UI Design&#10;&#10;- Set up Axios in React to fetch task data from backend&#10;- Added task priorities with enum (LOW, MEDIUM, HIGH) and display them in different colors (red, orange, green)&#10;- Updated React components to handle priority input when creating tasks&#10;- Improved UI/UX:&#10;  - Alternating background colors for tasks (white/grey)&#10;  - Added margin and alignment improvements for task properties&#10;  - Added delete button to each task and positioned it properly&#10;  - Refined form and task list design with flexbox layout and shadows&#10;  - Enhanced overall UI for better user experience" />
+    <MESSAGE value="Add optional deadlines and handling of overdue tasks" />
+    <MESSAGE value="Update README file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update README file" />
   </component>
 </project>
