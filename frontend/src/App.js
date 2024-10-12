@@ -8,7 +8,7 @@ function App() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState('LOW');
-    const [deadline, setDeadline] = useState('');  // New state for deadline
+    const [deadline, setDeadline] = useState('');
 
     const handleCreateTask = async (e) => {
         e.preventDefault();
@@ -20,7 +20,6 @@ function App() {
             priority,
         };
 
-        // Add deadline if it's set
         if (deadline) {
             newTask.deadline = deadline;
         }
@@ -55,7 +54,7 @@ function App() {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
-                        <div className="form-row">  {/* New wrapper for priority and date */}
+                        <div className="form-row">
                             <label>
                                 Priority:
                                 <select value={priority} onChange={(e) => setPriority(e.target.value)}>
@@ -67,7 +66,7 @@ function App() {
                             <label>
                                 Due (Optional):
                                 <input
-                                    type="date"  // Changed to date to remove time input
+                                    type="date"
                                     value={deadline}
                                     onChange={(e) => setDeadline(e.target.value)}
                                 />

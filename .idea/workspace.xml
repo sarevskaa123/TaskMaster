@@ -4,19 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8f9f0a47-5627-4a6e-9111-a984824b8543" name="Changes" comment="Update README file">
-      <change afterPath="$PROJECT_DIR$/frontend/src/Login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/MainRouter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/Register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/entity/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/entity/UserRole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/teodora/taskmaster/service/UserService.java" afterDir="false" />
+    <list default="true" id="8f9f0a47-5627-4a6e-9111-a984824b8543" name="Changes" comment="Add user entity with roles, repository, service, and controller&#10;&#10;- Defined user entity with username, password, first name, last name, and email fields&#10;- Enforced unique constraints for username and email&#10;- Added BCrypt password encoding in the entity&#10;- Implemented user roles (ADMIN, USER) with enum&#10;- Created user repository, service, and controller layers&#10;- Added frontend user registration and login forms with input validation">
+      <change afterPath="$PROJECT_DIR$/frontend/src/Home.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Home.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Register.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Header.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Header.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/MainRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/MainRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/TaskList.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/TaskList.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,10 +27,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="Enum" />
         <option value="Class" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -118,7 +119,7 @@
       <updated>1728566517187</updated>
       <workItem from="1728566518517" duration="1993000" />
       <workItem from="1728568633271" duration="497000" />
-      <workItem from="1728569794615" duration="16862000" />
+      <workItem from="1728569794615" duration="21107000" />
     </task>
     <task id="LOCAL-00001" summary="Add security config, PrePersist for task creation time, React frontend setup, and MySQL migration&#10;&#10;- Added simple security configuration for API endpoints.&#10;- Implemented @PrePersist to automatically set 'createdAt' time on Task entities.&#10;- Set up the frontend framework using React for UI development.&#10;- Migrated from H2 database to MySQL, updated application properties for MySQL connection.">
       <option name="closed" value="true" />
@@ -152,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728588170872</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add user entity with roles, repository, service, and controller&#10;&#10;- Defined user entity with username, password, first name, last name, and email fields&#10;- Enforced unique constraints for username and email&#10;- Added BCrypt password encoding in the entity&#10;- Implemented user roles (ADMIN, USER) with enum&#10;- Created user repository, service, and controller layers&#10;- Added frontend user registration and login forms with input validation">
+      <option name="closed" value="true" />
+      <created>1728745976045</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1728745976045</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,6 +172,7 @@
     <MESSAGE value="Fetch Data from Backend, Add Task Priorities, and Improve UI Design&#10;&#10;- Set up Axios in React to fetch task data from backend&#10;- Added task priorities with enum (LOW, MEDIUM, HIGH) and display them in different colors (red, orange, green)&#10;- Updated React components to handle priority input when creating tasks&#10;- Improved UI/UX:&#10;  - Alternating background colors for tasks (white/grey)&#10;  - Added margin and alignment improvements for task properties&#10;  - Added delete button to each task and positioned it properly&#10;  - Refined form and task list design with flexbox layout and shadows&#10;  - Enhanced overall UI for better user experience" />
     <MESSAGE value="Add optional deadlines and handling of overdue tasks" />
     <MESSAGE value="Update README file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README file" />
+    <MESSAGE value="Add user entity with roles, repository, service, and controller&#10;&#10;- Defined user entity with username, password, first name, last name, and email fields&#10;- Enforced unique constraints for username and email&#10;- Added BCrypt password encoding in the entity&#10;- Implemented user roles (ADMIN, USER) with enum&#10;- Created user repository, service, and controller layers&#10;- Added frontend user registration and login forms with input validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add user entity with roles, repository, service, and controller&#10;&#10;- Defined user entity with username, password, first name, last name, and email fields&#10;- Enforced unique constraints for username and email&#10;- Added BCrypt password encoding in the entity&#10;- Implemented user roles (ADMIN, USER) with enum&#10;- Created user repository, service, and controller layers&#10;- Added frontend user registration and login forms with input validation" />
   </component>
 </project>

@@ -37,12 +37,11 @@ function TaskList() {
         }
     };
 
-    // Function to check if a task is overdue
     const isTaskOverdue = (deadline) => {
-        if (!deadline) return false; // If there's no deadline, it's not overdue
+        if (!deadline) return false;
         const currentDate = new Date();
         const taskDeadline = new Date(deadline);
-        return currentDate > taskDeadline; // Check if the current date has passed the deadline
+        return currentDate > taskDeadline;
     };
 
     return (
@@ -51,7 +50,7 @@ function TaskList() {
                 {tasks.map((task, index) => (
                     <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
                         borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
-                        backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''  // Change background color if overdue
+                        backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
                     }}>
                         <div style={{ flexGrow: 1 }}>
                             <h2>{task.title}</h2>
