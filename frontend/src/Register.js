@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -8,6 +9,8 @@ function Register() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -20,7 +23,7 @@ function Register() {
                 email,
                 role: 'USER'
             });
-            alert("Registration successful!");
+            navigate('/login');
         } catch (error) {
             console.error('Error registering user:', error.response?.data || error.message);
             alert("Error during registration: " + (error.response?.data || error.message));

@@ -31,11 +31,12 @@ nav ul li {
     margin-left: 20px;
 }
 
-nav ul li a {
+nav ul li a, .logout-link {
     color: white;
     text-decoration: none;
+    cursor: pointer;
 }
 
-nav ul li a:hover {
+nav ul li a:hover, .logout-link:hover {
     text-decoration: underline;
 }

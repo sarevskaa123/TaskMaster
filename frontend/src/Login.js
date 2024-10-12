@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:8080/api/users/login', { username, password });
-            alert("Login successful!");
+
+            // Store the username and login status
+            localStorage.setItem('isLoggedIn', true);
+            localStorage.setItem('username', username);  // Store the username
+
+            navigate('/tasks');
         } catch (error) {
             console.error('Error logging in:', error);
             alert("Invalid username or password");
         }
     };
+
+
 
     return (
         <div className="login-container d-flex justify-content-center align-items-center vh-100">

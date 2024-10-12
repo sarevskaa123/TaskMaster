@@ -1,10 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './Home';
 import App from './App';
 import Register from './Register';
 import Login from './Login';
 import Header from './Header';
+
+function PrivateRoute({ element }) {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    return isLoggedIn ? element : <Navigate to="/login" />;
+}
 
 function MainRouter() {
     return (
@@ -14,7 +19,7 @@ function MainRouter() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/tasks" element={<App />} />
+                <Route path="/tasks" element={<PrivateRoute element={<App />} />} />
             </Routes>
         </Router>
     );

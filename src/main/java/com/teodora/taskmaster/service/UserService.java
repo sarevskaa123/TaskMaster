@@ -4,6 +4,8 @@ import com.teodora.taskmaster.entity.User;
 import com.teodora.taskmaster.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -27,5 +29,9 @@ public class UserService {
 
     public boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

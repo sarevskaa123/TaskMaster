@@ -25,12 +25,15 @@ function App() {
         }
 
         try {
-            await axios.post('http://localhost:8080/api/tasks', newTask);
+            const username = localStorage.getItem('username');
+            await axios.post(`http://localhost:8080/api/tasks?username=${username}`, newTask);
             window.location.reload();
         } catch (error) {
             console.error('Error creating task:', error.response?.data || error.message);
         }
     };
+
+
 
     return (
         <div className="App">

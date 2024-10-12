@@ -1,9 +1,20 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 
 function Header() {
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+    // Handle logout
+    const handleLogout = () => {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');  // Clear username as well
+        alert("Logout successful!");
+        navigate('/');
+    };
 
     return (
         <header className="App-header">
@@ -13,14 +24,19 @@ function Header() {
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/tasks">Tasks</Link></li>
 
-                    {/* Show the Register link only if not on the Register page */}
-                    {location.pathname !== '/register' && (
+                    {/* Show Register and Login links only if the user is not logged in */}
+                    {!isLoggedIn && location.pathname !== '/register' && (
                         <li><Link to="/register">Register</Link></li>
                     )}
-
-                    {/* Show the Login link only if not on the Login page */}
-                    {location.pathname !== '/login' && (
+                    {!isLoggedIn && location.pathname !== '/login' && (
                         <li><Link to="/login">Login</Link></li>
+                    )}
+
+                    {/* Show Logout link if the user is logged in */}
+                    {isLoggedIn && (
+                        <li>
+                            <button onClick={handleLogout} className="logout-link">Logout</button>
+                        </li>
                     )}
                 </ul>
             </nav>

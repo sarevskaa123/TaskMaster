@@ -17,20 +17,28 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
-    }
-
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        Task createdTask = taskService.createTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody Task task, @RequestParam String username) {
+        Task createdTask = taskService.createTask(task, username);
         return ResponseEntity.ok(createdTask);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
-        return ResponseEntity.ok().build();
+    @GetMapping
+    public ResponseEntity<List<Task>> getTasksForUser(@RequestParam String username) {
+        List<Task> tasks = taskService.getTasksForUser(username);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task, @RequestParam String username) {
+        task.setId(taskId);
+        Task updatedTask = taskService.updateTask(task, username);
+        return ResponseEntity.ok(updatedTask);
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long taskId, @RequestParam String username) {
+        taskService.deleteTask(taskId, username);
+        return ResponseEntity.noContent().build();
     }
 }

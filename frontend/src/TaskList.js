@@ -6,13 +6,16 @@ function TaskList() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/tasks')
-            .then(response => {
-                setTasks(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching tasks:', error);
-            });
+        const username = localStorage.getItem('username');
+        if (username) {
+            axios.get(`http://localhost:8080/api/tasks?username=${username}`)
+                .then(response => {
+                    setTasks(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching tasks:', error);
+                });
+        }
     }, []);
 
     const handleDeleteTask = async (id) => {
@@ -63,7 +66,7 @@ function TaskList() {
                                     Deadline: {new Date(task.deadline).toLocaleDateString()}
                                     {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
                                 </p>
-                            )} {/* Only display if deadline is set */}
+                            )}
                         </div>
                         <button className="delete-button" onClick={() => handleDeleteTask(task.id)}>Delete</button>
                     </li>
