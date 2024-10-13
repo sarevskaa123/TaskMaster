@@ -18,8 +18,8 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task, @RequestParam String username) {
-        Task createdTask = taskService.createTask(task, username);
+    public ResponseEntity<Task> createTask(@RequestBody Task task, @RequestParam String username, @RequestParam(required = false) Long projectId) {
+        Task createdTask = taskService.createTask(task, username, projectId);
         return ResponseEntity.ok(createdTask);
     }
 

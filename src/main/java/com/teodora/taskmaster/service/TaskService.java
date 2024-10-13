@@ -1,5 +1,6 @@
 package com.teodora.taskmaster.service;
 
+import com.teodora.taskmaster.entity.Project;
 import com.teodora.taskmaster.entity.Task;
 import com.teodora.taskmaster.entity.User;
 import com.teodora.taskmaster.repository.TaskRepository;
@@ -13,15 +14,23 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final ProjectService projectService;
 
-    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, ProjectService projectService) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.projectService = projectService;
     }
 
-    public Task createTask(Task task, String username) {
+    public Task createTask(Task task, String username, Long projectId) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
+
+        if (projectId != null) {
+            Project project = projectService.getProjectById(projectId);
+            task.setProject(project);  // Set the project to the task
+        }
+
         task.setUser(user);
         return taskRepository.save(task);
     }
@@ -51,5 +60,10 @@ public class TaskService {
         } else {
             throw new IllegalArgumentException("User not authorized to delete this task");
         }
+    }
+
+    public List<Task> getTasksByProjectId(Long projectId) {
+        Project project = projectService.getProjectById(projectId);
+        return taskRepository.findByProject(project);
     }
 }

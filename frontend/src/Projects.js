@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Projects.css';
 
 function Projects() {
     const [projects, setProjects] = useState([]);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const userId = localStorage.getItem('userId');
@@ -23,11 +25,10 @@ function Projects() {
         }
     }, []);
 
-
     const handleCreateProject = async (e) => {
         e.preventDefault();
         const newProject = { name, description };
-        const username = localStorage.getItem('username');  // Get the username from localStorage
+        const username = localStorage.getItem('username');
 
         if (!username) {
             alert('No username found in localStorage. Please log in again.');
@@ -35,16 +36,26 @@ function Projects() {
         }
 
         try {
-            // Send the username as a query parameter
             const response = await axios.post(`http://localhost:8080/api/projects?username=${username}`, newProject);
-            // Update the projects state without reloading the page
             setProjects([...projects, response.data]);
-            // Reset the form fields after successful creation
             setName('');
             setDescription('');
         } catch (error) {
             console.error('Error creating project:', error);
         }
+    };
+
+    const handleDeleteProject = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/projects/${id}`);
+            setProjects(projects.filter(project => project.id !== id));
+        } catch (error) {
+            console.error('Error deleting project:', error);
+        }
+    };
+
+    const handleProjectClick = (id) => {
+        navigate(`/projects/${id}`);
     };
 
     return (
@@ -70,9 +81,19 @@ function Projects() {
             <ul className="projects-list">
                 {projects.length > 0 ? (
                     projects.map(project => (
-                        <li key={project.id}>
-                            <h3>{project.name}</h3>
-                            <p>{project.description}</p>
+                        <li key={project.id} className="project-item">
+                            <div className="project-card" onClick={() => handleProjectClick(project.id)}>
+                                <div className="project-card-content">
+                                    <h3>{project.name}</h3>
+                                    <p>{project.description}</p>
+                                </div>
+                                <button className="delete-button" onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteProject(project.id);
+                                }}>
+                                    Delete
+                                </button>
+                            </div>
                         </li>
                     ))
                 ) : (

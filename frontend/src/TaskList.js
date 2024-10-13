@@ -10,14 +10,15 @@ function TaskList() {
         if (username) {
             axios.get(`http://localhost:8080/api/tasks?username=${username}`)
                 .then(response => {
-                    console.log("Fetched tasks:", response.data);  // Log the tasks
+                    console.log("Fetched tasks:", response.data);
                     setTasks(response.data);
                 })
                 .catch(error => {
-                    console.error('Error fetching tasks:', error);
+                    console.error('Error fetching tasks:', error.response?.data || error.message);
                 });
         }
     }, []);
+
 
 
     const handleDeleteTask = async (id) => {

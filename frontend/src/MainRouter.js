@@ -5,7 +5,8 @@ import App from './App';
 import Register from './Register';
 import Login from './Login';
 import Header from './Header';
-import Projects from './Projects'; // Import the Projects component
+import Projects from './Projects';
+import ProjectDetails from './ProjectDetails';
 
 function PrivateRoute({ element }) {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -22,6 +23,7 @@ function MainRouter() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/tasks" element={<PrivateRoute element={<App />} />} />
                 <Route path="/projects" element={<PrivateRoute element={<Projects />} />} />
+                <Route path="/projects/:id" element={<ProjectDetails />} />
             </Routes>
         </Router>
     );

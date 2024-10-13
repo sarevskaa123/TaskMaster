@@ -1,7 +1,7 @@
 /* Container for the Projects page */
 .projects-container {
     padding: 20px;
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
     background-color: #f9f9f9;
     border-radius: 8px;
@@ -45,19 +45,51 @@
     padding: 0;
 }
 
-.projects-list li {
+/* Project card */
+.project-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     padding: 15px;
     margin-bottom: 10px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    cursor: pointer;
+    position: relative;
 }
 
-.projects-list h3 {
-    margin: 0 0 10px;
+.project-card:hover {
+    transform: scale(1.02);
 }
 
-.projects-list p {
+.project-card-content {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.project-card h3 {
+    margin: 0 0 5px;
+    font-size: 1.2em;
+}
+
+.project-card p {
     margin: 0;
+    color: #555;
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.delete-button:hover {
+    background-color: darkred;
 }
