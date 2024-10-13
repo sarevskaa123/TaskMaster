@@ -41,13 +41,41 @@ public class TaskService {
         return taskRepository.findAllByUser(user);
     }
 
-    public Task updateTask(Task task, String username) {
+    public Task updateTask(Task task, String username, Long projectId) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
-        if (task.getUser().equals(user)) {
-            return taskRepository.save(task);
+
+        Task existingTask = taskRepository.findById(task.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+
+        // If the task has a project, check if the user is part of the project
+        if (existingTask.getProject() != null) {
+            if (projectId != null) {
+                Project project = projectService.getProjectById(projectId);
+                if (project.getUsers().contains(user)) {
+                    // Allow the update if the user is part of the project
+                    existingTask.setTitle(task.getTitle());
+                    existingTask.setDescription(task.getDescription());
+                    existingTask.setPriority(task.getPriority());
+                    existingTask.setDeadline(task.getDeadline());
+                    return taskRepository.save(existingTask);
+                } else {
+                    throw new IllegalArgumentException("User not authorized to update this task");
+                }
+            }
+        } else {
+            // If the task is not part of a project, allow the update for the task owner
+            if (existingTask.getUser().equals(user)) {
+                existingTask.setTitle(task.getTitle());
+                existingTask.setDescription(task.getDescription());
+                existingTask.setPriority(task.getPriority());
+                existingTask.setDeadline(task.getDeadline());
+                return taskRepository.save(existingTask);
+            } else {
+                throw new IllegalArgumentException("User not authorized to update this task");
+            }
         }
-        throw new IllegalArgumentException("User not authorized to update this task");
+        throw new IllegalArgumentException("Project not found for this task");
     }
 
     public void deleteTask(Long taskId, String username) {

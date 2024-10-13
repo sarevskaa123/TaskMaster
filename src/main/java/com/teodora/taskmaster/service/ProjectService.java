@@ -29,7 +29,7 @@ public class ProjectService {
     }
 
     public List<Project> getProjectsForUser(Long userId) {
-        return projectRepository.findByOwnerId(userId);
+        return projectRepository.findProjectsByOwnerIdOrUsers_Id(userId);
     }
 
     public Project addUserToProject(Long projectId, String username) {
