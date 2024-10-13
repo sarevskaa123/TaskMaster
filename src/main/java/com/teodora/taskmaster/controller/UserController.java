@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,14 +36,19 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User loginUser) {
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody User loginUser) {
         User user = userService.getUserByUsername(loginUser.getUsername());
         if (user != null && new BCryptPasswordEncoder().matches(loginUser.getPassword(), user.getPassword())) {
-            return ResponseEntity.ok("Login successful");
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", user.getId());
+            response.put("username", user.getUsername());
+            response.put("message", "Login successful");
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(401).body("Invalid credentials");
+            return ResponseEntity.status(401).body(Collections.singletonMap("message", "Invalid credentials"));
         }
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {

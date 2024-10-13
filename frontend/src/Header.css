@@ -40,3 +40,11 @@ nav ul li a, .logout-link {
 nav ul li a:hover, .logout-link:hover {
     text-decoration: underline;
 }
+
+.logout-link {
+    background: none;
+    border: none;
+    font: inherit;
+    padding: 0;
+    color: white;
+}

@@ -10,6 +10,7 @@ function TaskList() {
         if (username) {
             axios.get(`http://localhost:8080/api/tasks?username=${username}`)
                 .then(response => {
+                    console.log("Fetched tasks:", response.data);  // Log the tasks
                     setTasks(response.data);
                 })
                 .catch(error => {
@@ -18,9 +19,11 @@ function TaskList() {
         }
     }, []);
 
+
     const handleDeleteTask = async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/api/tasks/${id}`);
+            const username = localStorage.getItem('username');
+            await axios.delete(`http://localhost:8080/api/tasks/${id}?username=${username}`);
             setTasks(tasks.filter(task => task.id !== id));
         } catch (error) {
             console.error('Error deleting task:', error);
@@ -50,28 +53,34 @@ function TaskList() {
     return (
         <div>
             <ul>
-                {tasks.map((task, index) => (
-                    <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
-                        borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
-                        backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
-                    }}>
-                        <div style={{ flexGrow: 1 }}>
-                            <h2>{task.title}</h2>
-                            <p>{task.description}</p>
-                            <p>Status: {task.status}</p>
-                            <p>Priority: <span style={{ color: getPriorityColor(task.priority) }}>{task.priority}</span></p>
-                            <p>Created At: {new Date(task.createdAt).toLocaleDateString()}</p>
-                            {task.deadline && (
-                                <p>
-                                    Deadline: {new Date(task.deadline).toLocaleDateString()}
-                                    {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
-                                </p>
-                            )}
-                        </div>
-                        <button className="delete-button" onClick={() => handleDeleteTask(task.id)}>Delete</button>
-                    </li>
-                ))}
+                {tasks.length > 0 ? (
+                    tasks.map((task, index) => (
+                        <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
+                            borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
+                            backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
+                        }}>
+                            <div style={{flexGrow: 1}}>
+                                <h2>{task.title}</h2>
+                                <p>{task.description}</p>
+                                <p>Status: {task.status}</p>
+                                <p>Priority: <span
+                                    style={{color: getPriorityColor(task.priority)}}>{task.priority}</span></p>
+                                <p>Created At: {new Date(task.createdAt).toLocaleDateString()}</p>
+                                {task.deadline && (
+                                    <p>
+                                        Deadline: {new Date(task.deadline).toLocaleDateString()}
+                                        {isTaskOverdue(task.deadline) && <span style={{color: 'red'}}> (Overdue)</span>}
+                                    </p>
+                                )}
+                            </div>
+                            <button className="delete-button" onClick={() => handleDeleteTask(task.id)}>Delete</button>
+                        </li>
+                    ))
+                ) : (
+                    <p>No tasks available</p>
+                )}
             </ul>
+
         </div>
     );
 }

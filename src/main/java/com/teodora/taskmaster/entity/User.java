@@ -1,5 +1,6 @@
 package com.teodora.taskmaster.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,20 +16,19 @@ public class User {
     private Long id;
 
     private String username;
-
     private String password;
 
     @Column(unique = true)
     private String email;
 
     private String firstName;
-
     private String lastName;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Task> tasks;
 
     @PrePersist

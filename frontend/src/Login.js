@@ -11,20 +11,26 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8080/api/users/login', { username, password });
+            console.log("Sending login request with: ", { username, password });
+            const response = await axios.post('http://localhost:8080/api/users/login', { username, password });
 
-            // Store the username and login status
-            localStorage.setItem('isLoggedIn', true);
-            localStorage.setItem('username', username);  // Store the username
+            // Expecting the response to include the userId and username
+            if (response.data.id && response.data.username) {
+                const userId = response.data.id;
+                const loggedInUsername = response.data.username;
 
-            navigate('/tasks');
+                localStorage.setItem('isLoggedIn', true);
+                localStorage.setItem('username', loggedInUsername);
+                localStorage.setItem('userId', userId);  // Ensure this is stored correctly
+                navigate('/tasks');
+            } else {
+                alert('Login was successful, but no user details were returned.');
+            }
         } catch (error) {
-            console.error('Error logging in:', error);
+            console.error('Error logging in:', error.response?.data || error.message);
             alert("Invalid username or password");
         }
     };
-
-
 
     return (
         <div className="login-container d-flex justify-content-center align-items-center vh-100">
