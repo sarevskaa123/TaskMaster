@@ -28,7 +28,7 @@ public class TaskService {
 
         if (projectId != null) {
             Project project = projectService.getProjectById(projectId);
-            task.setProject(project);  // Set the project to the task
+            task.setProject(project);
         }
 
         task.setUser(user);
@@ -48,35 +48,36 @@ public class TaskService {
         Task existingTask = taskRepository.findById(task.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
-        // If the task has a project, check if the user is part of the project
+        // Check if the task is part of a project
         if (existingTask.getProject() != null) {
-            if (projectId != null) {
-                Project project = projectService.getProjectById(projectId);
-                if (project.getUsers().contains(user)) {
-                    // Allow the update if the user is part of the project
-                    existingTask.setTitle(task.getTitle());
-                    existingTask.setDescription(task.getDescription());
-                    existingTask.setPriority(task.getPriority());
-                    existingTask.setDeadline(task.getDeadline());
-                    return taskRepository.save(existingTask);
-                } else {
-                    throw new IllegalArgumentException("User not authorized to update this task");
-                }
+            Project project = existingTask.getProject();
+
+            // Allow update if the user is a member of the project
+            if (project.getUsers().contains(user)) {
+                existingTask.setTitle(task.getTitle());
+                existingTask.setDescription(task.getDescription());
+                existingTask.setPriority(task.getPriority());
+                existingTask.setDeadline(task.getDeadline());
+                existingTask.setStatus(task.getStatus());
+                return taskRepository.save(existingTask);
+            } else {
+                throw new IllegalArgumentException("User not authorized to update this task");
             }
         } else {
-            // If the task is not part of a project, allow the update for the task owner
+            // If the task is not part of a project, the task owner can update it
             if (existingTask.getUser().equals(user)) {
                 existingTask.setTitle(task.getTitle());
                 existingTask.setDescription(task.getDescription());
                 existingTask.setPriority(task.getPriority());
                 existingTask.setDeadline(task.getDeadline());
+                existingTask.setStatus(task.getStatus());
                 return taskRepository.save(existingTask);
             } else {
                 throw new IllegalArgumentException("User not authorized to update this task");
             }
         }
-        throw new IllegalArgumentException("Project not found for this task");
     }
+
 
     public void deleteTask(Long taskId, String username) {
         User user = userRepository.findByUsername(username)

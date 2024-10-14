@@ -37,9 +37,6 @@ function App() {
         <div className="App">
             <Header />
             <div className="container">
-                <div className="task-section">
-                    <TaskList />
-                </div>
                 <div className="form-section">
                     <h2>Add New Task</h2>
                     <form onSubmit={handleCreateTask}>
@@ -75,6 +72,10 @@ function App() {
                         </div>
                         <button type="submit">Add Task</button>
                     </form>
+                </div>
+
+                <div className="task-section">
+                    <TaskList />
                 </div>
             </div>
         </div>

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import './App.css';
+
+const ItemTypes = {
+    TASK: 'task',
+};
 
 function TaskList() {
     const [tasks, setTasks] = useState([]);
@@ -12,7 +18,6 @@ function TaskList() {
         if (username) {
             axios.get(`http://localhost:8080/api/tasks?username=${username}`)
                 .then(response => {
-                    console.log("Fetched tasks:", response.data);
                     setTasks(response.data);
                 })
                 .catch(error => {
@@ -70,10 +75,30 @@ function TaskList() {
         return filteredTasks;
     };
 
+    const moveTask = async (taskId, newStatus) => {
+        const taskToMove = tasks.find(task => task.id === taskId);
+        const updatedTask = { ...taskToMove, status: newStatus };
+
+        setTasks(tasks.map(task => (task.id === taskId ? updatedTask : task)));
+
+        try {
+            const username = localStorage.getItem('username');
+            const payload = {
+                ...updatedTask,
+                projectId: taskToMove.project ? taskToMove.project.id : null
+            };
+
+            await axios.put(`http://localhost:8080/api/tasks/${taskId}?username=${username}`, payload);
+            console.log('Task status updated successfully!');
+        } catch (error) {
+            console.error('Error updating task status:', error);
+        }
+    };
+
+
     return (
-        <div>
-            {/* Task Filter Section */}
-            <div className="filter-section">
+        <DndProvider backend={HTML5Backend}>
+            <div className="task-filters">
                 <label>
                     Filter by Priority:
                     <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)}>
@@ -94,34 +119,80 @@ function TaskList() {
                 </label>
             </div>
 
-            {/* Task List Section */}
-            <ul>
-                {filterTasks().length > 0 ? (
-                    filterTasks().map((task, index) => (
-                        <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
-                            borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
-                            backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
-                        }}>
-                            <div style={{ flexGrow: 1 }}>
-                                <h2>{task.title}</h2>
-                                <p>{task.description}</p>
-                                <p>Status: {task.status}</p>
-                                <p>Priority: <span style={{ color: getPriorityColor(task.priority) }}>{task.priority}</span></p>
-                                <p>Created At: {new Date(task.createdAt).toLocaleDateString()}</p>
-                                {task.deadline && (
-                                    <p>
-                                        Deadline: {new Date(task.deadline).toLocaleDateString()}
-                                        {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
-                                    </p>
-                                )}
-                            </div>
-                            <button className="delete-button" onClick={() => handleDeleteTask(task.id)}>Delete</button>
-                        </li>
-                    ))
-                ) : (
-                    <p>No tasks available</p>
+            <div className="kanban-board">
+                {['TODO', 'IN_PROGRESS', 'DONE'].map(status => (
+                    <TaskColumn
+                        key={status}
+                        status={status}
+                        tasks={filterTasks().filter(task => task.status === status)}
+                        moveTask={moveTask}
+                        getPriorityColor={getPriorityColor}
+                        isTaskOverdue={isTaskOverdue}
+                        handleDeleteTask={handleDeleteTask}
+                    />
+                ))}
+            </div>
+        </DndProvider>
+    );
+}
+
+function TaskColumn({ status, tasks, moveTask, getPriorityColor, isTaskOverdue, handleDeleteTask }) {
+    const [, drop] = useDrop({
+        accept: ItemTypes.TASK,
+        drop: (item) => {
+            moveTask(item.id, status);
+        },
+    });
+
+    return (
+        <div className="kanban-column" ref={drop}>
+            <h3>{status}</h3>
+            {tasks.map((task, index) => (
+                <DraggableTask
+                    key={task.id}
+                    task={task}
+                    index={index}
+                    getPriorityColor={getPriorityColor}
+                    isTaskOverdue={isTaskOverdue}
+                    handleDeleteTask={handleDeleteTask}
+                />
+            ))}
+        </div>
+    );
+}
+
+function DraggableTask({ task, getPriorityColor, isTaskOverdue, handleDeleteTask }) {
+    const [{ isDragging }, drag] = useDrag({
+        type: ItemTypes.TASK,
+        item: { id: task.id },
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    });
+
+    return (
+        <div
+            ref={drag}
+            className={`task-list`}
+            style={{
+                borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
+                backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : '',
+                opacity: isDragging ? 0.5 : 1,
+            }}
+        >
+            <div style={{ flexGrow: 1 }}>
+                <h2>{task.title}</h2>
+                <p>{task.description}</p>
+                <p>Status: {task.status}</p>
+                <p>Priority: <span style={{ color: getPriorityColor(task.priority) }}>{task.priority}</span></p>
+                {task.deadline && (
+                    <p>
+                        Deadline: {new Date(task.deadline).toLocaleDateString()}
+                        {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
+                    </p>
                 )}
-            </ul>
+            </div>
+            <button className="delete-button" onClick={() => handleDeleteTask(task.id)}>Delete</button>
         </div>
     );
 }
