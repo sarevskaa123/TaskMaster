@@ -22,7 +22,6 @@ function ProjectDetails() {
         deadline: ''
     });
 
-    // State for adding users
     const [newUsername, setNewUsername] = useState('');
 
     useEffect(() => {
@@ -167,31 +166,27 @@ function ProjectDetails() {
 
     return (
         <div className="project-details-container">
-            {/* Flex container for project info and members */}
-            <div className="project-header-container">
+            {/* Project Header Section */}
+            <div className="project-header">
                 <div className="project-main-info">
-                    <div className="project-header">
-                        {isEditing ? (
-                            <div className="edit-fields">
-                                <label htmlFor="project-name">Project Title</label>
-                                <input
-                                    id="project-name"
-                                    type="text"
-                                    value={project.name}
-                                    onChange={(e) => setProject({ ...project, name: e.target.value })}
-                                />
-                            </div>
-                        ) : (
-                            <h2>{project.name}</h2>
-                        )}
-
-                        {isOwner && (
-                            <button onClick={() => setIsEditing(!isEditing)} className="edit-button">
-                                {isEditing ? <FaSave onClick={handleEditProject} /> : <FaEdit />}
-                            </button>
-                        )}
-                    </div>
-
+                    {isEditing ? (
+                        <div className="edit-fields">
+                            <label htmlFor="project-name">Project Title</label>
+                            <input
+                                id="project-name"
+                                type="text"
+                                value={project.name}
+                                onChange={(e) => setProject({ ...project, name: e.target.value })}
+                            />
+                        </div>
+                    ) : (
+                        <h2>{project.name}</h2>
+                    )}
+                    {isOwner && (
+                        <button onClick={() => setIsEditing(!isEditing)} className="edit-button">
+                            {isEditing ? <FaSave onClick={handleEditProject} /> : <FaEdit />}
+                        </button>
+                    )}
                     {isEditing ? (
                         <div className="edit-fields">
                             <label htmlFor="project-description">Project Description</label>
@@ -202,15 +197,16 @@ function ProjectDetails() {
                             />
                         </div>
                     ) : (
-                        <p>{project.description}</p>
+                        <>
+                            <label className="project-description-label">Project Description</label>
+                            <div className="project-description">{project.description}</div>
+                        </>
                     )}
-
                     {!showForm && (
                         <button className="toggle-button" onClick={() => setShowForm(true)}>
                             Add New Task
                         </button>
                     )}
-
                     {showForm && (
                         <div className="form-section">
                             <h3>Add New Task</h3>
@@ -252,113 +248,110 @@ function ProjectDetails() {
                         </div>
                     )}
                 </div>
-
-                {/* Project Members section */}
-                <div className="project-members">
-                    <h3>Project Members</h3>
-
-                    {/* Add user to project */}
-                    <div className="add-user-form">
-                        <label htmlFor="addUser">Add user by username</label>
-                        <input
-                            type="text"
-                            id="addUser"
-                            value={newUsername}
-                            onChange={(e) => setNewUsername(e.target.value)}
-                            placeholder="Enter username"
-                        />
-                        <button onClick={handleAddUser}>Add User</button>
-                    </div>
-                    <ul className="members-list">
-                        {project.users?.length > 0 ? (
-                            project.users.map((user) => (
-                                <li key={user.username}>{user.username}</li>
-                            ))
-                        ) : (
-                            <p>No members assigned to this project</p>
-                        )}
-                    </ul>
-                </div>
             </div>
 
-            {/* Tasks section aligned under project info */}
-            <div className="project-main-section">
-                <div className="project-tasks">
-                    <h3>Tasks for this project</h3>
-                    <ul className="tasks-list">
-                        {tasks.length > 0 ? (
-                            tasks.map((task, index) => (
-                                <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
-                                    borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
-                                    backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
-                                }}>
-                                    {editingTaskId === task.id ? (
-                                        <div className="task-edit-form">
-                                            <label htmlFor="edit-title">Title:</label>
-                                            <input
-                                                id="edit-title"
-                                                type="text"
-                                                name="title"
-                                                value={taskEditData.title}
-                                                onChange={handleTaskEditChange}
-                                            />
-                                            <label htmlFor="edit-description">Description:</label>
-                                            <textarea
-                                                id="edit-description"
-                                                name="description"
-                                                value={taskEditData.description}
-                                                onChange={handleTaskEditChange}
-                                            />
-                                            <div className="form-row">
-                                                <label>
-                                                    Priority:
-                                                    <select name="priority" value={taskEditData.priority} onChange={handleTaskEditChange}>
-                                                        <option value="LOW">Low</option>
-                                                        <option value="MEDIUM">Medium</option>
-                                                        <option value="HIGH">High</option>
-                                                    </select>
-                                                </label>
-                                                <label>
-                                                    Due (Optional):
-                                                    <input
-                                                        type="date"
-                                                        name="deadline"
-                                                        value={taskEditData.deadline}
-                                                        onChange={handleTaskEditChange}
-                                                    />
-                                                </label>
-                                            </div>
-                                            <button onClick={() => handleUpdateTask(task.id)}>
-                                                <FaSave /> Save
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div style={{ flexGrow: 1 }}>
-                                            <h2>{task.title}</h2>
-                                            <p>{task.description}</p>
-                                            <p>Status: {task.status}</p>
-                                            <p>Priority: <span style={{ color: getPriorityColor(task.priority) }}>{task.priority}</span></p>
-                                            {task.deadline && (
-                                                <p>
-                                                    Deadline: {new Date(task.deadline).toLocaleDateString()}
-                                                    {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
-                                                </p>
-                                            )}
-                                        </div>
-                                    )}
-                                    <button onClick={() => handleTaskEditClick(task)}>
-                                        <FaEdit /> Edit
-                                    </button>
-                                </li>
-                            ))
-                        ) : (
-                            <p>No tasks available for this project</p>
-                        )}
-                    </ul>
+            {/* Project Members Section */}
+            <div className="project-members">
+                <h3>Project Members</h3>
+                <div className="add-user-form">
+                    <label htmlFor="addUser">Add user by username</label>
+                    <input
+                        type="text"
+                        id="addUser"
+                        value={newUsername}
+                        onChange={(e) => setNewUsername(e.target.value)}
+                        placeholder="Enter username"
+                    />
+                    <button onClick={handleAddUser}>Add User</button>
                 </div>
+                <ul className="members-list">
+                    {project.users?.length > 0 ? (
+                        project.users.map((user) => (
+                            <li key={user.username}>{user.username}</li>
+                        ))
+                    ) : (
+                        <p>No members assigned to this project</p>
+                    )}
+                </ul>
+            </div>
+
+            {/* Tasks Section */}
+            <div className="project-tasks">
+                <h3>Tasks for this project</h3>
+                <ul className="tasks-list">
+                    {tasks.length > 0 ? (
+                        tasks.map((task, index) => (
+                            <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
+                                borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
+                                backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
+                            }}>
+                                {editingTaskId === task.id ? (
+                                    <div className="task-edit-form">
+                                        <label htmlFor="edit-title">Title:</label>
+                                        <input
+                                            id="edit-title"
+                                            type="text"
+                                            name="title"
+                                            value={taskEditData.title}
+                                            onChange={handleTaskEditChange}
+                                        />
+                                        <label htmlFor="edit-description">Description:</label>
+                                        <textarea
+                                            id="edit-description"
+                                            name="description"
+                                            value={taskEditData.description}
+                                            onChange={handleTaskEditChange}
+                                        />
+                                        <div className="form-row">
+                                            <label>
+                                                Priority:
+                                                <select name="priority" value={taskEditData.priority} onChange={handleTaskEditChange}>
+                                                    <option value="LOW">Low</option>
+                                                    <option value="MEDIUM">Medium</option>
+                                                    <option value="HIGH">High</option>
+                                                </select>
+                                            </label>
+                                            <label>
+                                                Due (Optional):
+                                                <input
+                                                    type="date"
+                                                    name="deadline"
+                                                    value={taskEditData.deadline}
+                                                    onChange={handleTaskEditChange}
+                                                />
+                                            </label>
+                                        </div>
+                                        <button onClick={() => handleUpdateTask(task.id)}>
+                                            <FaSave /> Save
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div style={{ flexGrow: 1 }}>
+                                        <h2>{task.title}</h2>
+                                        <p>{task.description}</p>
+                                        <p>Status: {task.status}</p>
+                                        <p>Priority: <span style={{ color: getPriorityColor(task.priority) }}>{task.priority}</span></p>
+                                        {task.deadline && (
+                                            <p>
+                                                Deadline: {new Date(task.deadline).toLocaleDateString()}
+                                                {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
+                                <button onClick={() => handleTaskEditClick(task)}>
+                                    <FaEdit /> Edit
+                                </button>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No tasks available for this project</p>
+                    )}
+                </ul>
             </div>
         </div>
     );
+
 }
 
 export default ProjectDetails;
