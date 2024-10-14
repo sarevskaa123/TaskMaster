@@ -23,6 +23,8 @@ function ProjectDetails() {
     });
 
     const [newUsername, setNewUsername] = useState('');
+    const [filterPriority, setFilterPriority] = useState('ALL');
+    const [filterDueDate, setFilterDueDate] = useState('ALL');
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/projects/${id}`)
@@ -159,6 +161,25 @@ function ProjectDetails() {
         return currentDate > taskDeadline;
     };
 
+    const filterTasks = () => {
+        let filteredTasks = tasks;
+
+        if (filterPriority !== 'ALL') {
+            filteredTasks = filteredTasks.filter(task => task.priority === filterPriority);
+        }
+
+        if (filterDueDate === 'UPCOMING') {
+            filteredTasks = filteredTasks.filter(task => {
+                const deadline = new Date(task.deadline);
+                return deadline >= new Date();
+            });
+        } else if (filterDueDate === 'OVERDUE') {
+            filteredTasks = filteredTasks.filter(task => isTaskOverdue(task.deadline));
+        }
+
+        return filteredTasks;
+    };
+
     if (!project) return <p>Loading project details...</p>;
 
     const username = localStorage.getItem('username');
@@ -275,12 +296,34 @@ function ProjectDetails() {
                 </ul>
             </div>
 
+            {/* Task Filter Section */}
+            <div className="filter-section">
+                <label>
+                    Filter by Priority:
+                    <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)}>
+                        <option value="ALL">All</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                    </select>
+                </label>
+
+                <label>
+                    Filter by Due Date:
+                    <select value={filterDueDate} onChange={(e) => setFilterDueDate(e.target.value)}>
+                        <option value="ALL">All</option>
+                        <option value="UPCOMING">Upcoming</option>
+                        <option value="OVERDUE">Overdue</option>
+                    </select>
+                </label>
+            </div>
+
             {/* Tasks Section */}
             <div className="project-tasks">
                 <h3>Tasks for this project</h3>
                 <ul className="tasks-list">
-                    {tasks.length > 0 ? (
-                        tasks.map((task, index) => (
+                    {filterTasks().length > 0 ? (
+                        filterTasks().map((task, index) => (
                             <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
                                 borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
                                 backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
@@ -351,8 +394,6 @@ function ProjectDetails() {
             </div>
         </div>
     );
-
 }
 
 export default ProjectDetails;
-

@@ -4,6 +4,8 @@ import './App.css';
 
 function TaskList() {
     const [tasks, setTasks] = useState([]);
+    const [filterPriority, setFilterPriority] = useState('ALL');
+    const [filterDueDate, setFilterDueDate] = useState('ALL');
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -18,8 +20,6 @@ function TaskList() {
                 });
         }
     }, []);
-
-
 
     const handleDeleteTask = async (id) => {
         try {
@@ -51,26 +51,67 @@ function TaskList() {
         return currentDate > taskDeadline;
     };
 
+    const filterTasks = () => {
+        let filteredTasks = tasks;
+
+        if (filterPriority !== 'ALL') {
+            filteredTasks = filteredTasks.filter(task => task.priority === filterPriority);
+        }
+
+        if (filterDueDate === 'UPCOMING') {
+            filteredTasks = filteredTasks.filter(task => {
+                const deadline = new Date(task.deadline);
+                return deadline >= new Date();
+            });
+        } else if (filterDueDate === 'OVERDUE') {
+            filteredTasks = filteredTasks.filter(task => isTaskOverdue(task.deadline));
+        }
+
+        return filteredTasks;
+    };
+
     return (
         <div>
+            {/* Task Filter Section */}
+            <div className="filter-section">
+                <label>
+                    Filter by Priority:
+                    <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)}>
+                        <option value="ALL">All</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                    </select>
+                </label>
+
+                <label>
+                    Filter by Due Date:
+                    <select value={filterDueDate} onChange={(e) => setFilterDueDate(e.target.value)}>
+                        <option value="ALL">All</option>
+                        <option value="UPCOMING">Upcoming</option>
+                        <option value="OVERDUE">Overdue</option>
+                    </select>
+                </label>
+            </div>
+
+            {/* Task List Section */}
             <ul>
-                {tasks.length > 0 ? (
-                    tasks.map((task, index) => (
+                {filterTasks().length > 0 ? (
+                    filterTasks().map((task, index) => (
                         <li key={task.id} className={`task-list ${index % 2 === 0 ? '' : 'task-list-alt'}`} style={{
                             borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
                             backgroundColor: isTaskOverdue(task.deadline) ? '#f8d7da' : ''
                         }}>
-                            <div style={{flexGrow: 1}}>
+                            <div style={{ flexGrow: 1 }}>
                                 <h2>{task.title}</h2>
                                 <p>{task.description}</p>
                                 <p>Status: {task.status}</p>
-                                <p>Priority: <span
-                                    style={{color: getPriorityColor(task.priority)}}>{task.priority}</span></p>
+                                <p>Priority: <span style={{ color: getPriorityColor(task.priority) }}>{task.priority}</span></p>
                                 <p>Created At: {new Date(task.createdAt).toLocaleDateString()}</p>
                                 {task.deadline && (
                                     <p>
                                         Deadline: {new Date(task.deadline).toLocaleDateString()}
-                                        {isTaskOverdue(task.deadline) && <span style={{color: 'red'}}> (Overdue)</span>}
+                                        {isTaskOverdue(task.deadline) && <span style={{ color: 'red' }}> (Overdue)</span>}
                                     </p>
                                 )}
                             </div>
@@ -81,7 +122,6 @@ function TaskList() {
                     <p>No tasks available</p>
                 )}
             </ul>
-
         </div>
     );
 }
